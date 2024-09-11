@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateQuantity, removeProduct } from './cartSlice';
@@ -10,18 +9,18 @@ const Cart = () => {
   return (
     <div>
       <h2>Cart</h2>
-      {products.map(product => (
-        <div key={product.id} className="border p-4 flex justify-between">
-          <span>{product.title}</span>
+      {products.map(({ id, title, price, quantity }) => (
+        <div key={id} className="border p-4 flex justify-between">
+          <span>{title}</span>
           <input
             type="number"
-            value={product.quantity}
-            onChange={(e) => dispatch(updateQuantity({ id: product.id, quantity: +e.target.value }))}
+            value={quantity}
+            onChange={(e) => dispatch(updateQuantity({ id, quantity: +e.target.value }))}
           />
-          <button onClick={() => dispatch(removeProduct(product.id))}>
+          <button onClick={() => dispatch(removeProduct(id))}>
             Remove
           </button>
-          <span>${product.price * product.quantity}</span>
+          <span>${(price * quantity).toFixed(2)}</span>
         </div>
       ))}
       <div className="mt-4">
